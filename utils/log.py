@@ -62,4 +62,4 @@ class Logger(object):
 
 
 if __name__ == '__main__':
-    Logger('OA').get_logger().info('doooo')
+    Logger('ETPSS').get_logger().info('doooo')
