@@ -10,6 +10,7 @@ token:
   }
 
 ETPSS:
+  HOST: 'http://106.74.152.35:13249/'
   token:
     url: 'http://auth.mst.casicloud.com/1/token/create?client_id=4g0ucoqrwtn92dxq&sign=ir834960bnjghze8343afajga'
     head: {"Content-Type": "application/json"}
