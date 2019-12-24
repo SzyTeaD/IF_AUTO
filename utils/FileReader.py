@@ -30,23 +30,9 @@ class SheetTypeError(Exception):
 
 class ExcelReader:
     """
-    读取excel文件中的内容。返回list。
-
-    如：
-    excel中内容为：
-    | A  | B  | C  |
-    | A1 | B1 | C1 |
-    | A2 | B2 | C2 |
-
-    如果 print(ExcelReader(excel, title_line=True).data)，输出结果：
-    [{A: A1, B: B1, C:C1}, {A:A2, B:B2, C:C2}]
-
-    如果 print(ExcelReader(excel, title_line=False).data)，输出结果：
-    [[A,B,C], [A1,B1,C1], [A2,B2,C2]]
-
-    可以指定sheet，通过index或者name：
-    ExcelReader(excel, sheet=2)
-    ExcelReader(excel, sheet='BaiDuTest')
+    如果title_line=True，输出结果：[{A: A1, B: B1, C:C1}, {A:A2, B:B2, C:C2}]
+    如果title_line=False,输出结果：[[A,B,C], [A1,B1,C1], [A2,B2,C2]]
+    通过index或者name：指定sheet
     """
     def __init__(self, excel, sheet=0, title_line=True):
         if os.path.exists(excel):
@@ -56,9 +42,9 @@ class ExcelReader:
         self.sheet = sheet
         self.title_line = title_line
         self._data = list()
+        self.s = self.open_book()
 
-    @property
-    def data(self):
+    def open_book(self):
         if not self._data:
             workbook = open_workbook(self.excel)
             if type(self.sheet) not in [int, str]:
@@ -67,24 +53,34 @@ class ExcelReader:
                 s = workbook.sheet_by_index(self.sheet)
             else:
                 s = workbook.sheet_by_name(self.sheet)
-            if self.title_line:
-                title = s.row_values(0)  # 首行为title
-                for col in range(1, s.nrows):
-                    # 依次遍历其余行，与首行组成dict，拼到self._data中
-                    self._data.append(dict(zip(title, s.row_values(col))))
-            else:
-                for col in range(0, s.nrows):
-                    # 遍历所有行，拼到self._data中
-                    self._data.append(s.row_values(col))
+            return s
+
+    @property
+    def data(self):
+        if self.title_line:
+            title = self.s.row_values(0)  # 首行为title
+            for col in range(1, self.s.nrows):
+                # 依次遍历其余行，与首行组成dict，拼到self._data中
+                self._data.append(dict(zip(title, self.s.row_values(col))))
+        else:
+            for col in range(0, self.s.nrows):
+                # 遍历所有行，拼到self._data中
+                self._data.append(self.s.row_values(col))
         return self._data
 
-    def get(self, i=0):
-        return self.data[i]
+    @property
+    def max_rows(self):
+        if self.title_line:
+            count = int(self.s.nrows)-1
+            return count
+        else:
+            count = int(self.s.nrows)
+            return count
 
 
 if __name__ == '__main__':
     e = r'F:\PyCharm\py_work\IF_AOTO\data\供应商接口测试.xls'
-    a = ExcelReader(e,title_line=False)
-    print(a.max_row)
+    a = ExcelReader(e)
+    print(a.data[0])
 
 
