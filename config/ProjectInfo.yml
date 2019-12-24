@@ -3,7 +3,7 @@ token:
   url: 'http://auth.mst.casicloud.com/1/token/create?client_id=4g0ucoqrwtn92dxq&sign=ir834960bnjghze8343afajga'
   head: {"Content-Type": "application/json"}
   data: {
-    "user_id": 10000041150702,
+    "user_id": 10000041141535,
     "client_id": "4g0ucoqrwtn92dxq",
     "grant_type": "application_code",
     "scope": "app_scope"
@@ -14,7 +14,7 @@ ETPSS:
     url: 'http://auth.mst.casicloud.com/1/token/create?client_id=4g0ucoqrwtn92dxq&sign=ir834960bnjghze8343afajga'
     head: {"Content-Type": "application/json"}
     data: {
-      "user_id": 10000041150702,
+      "user_id": 10000041141535,  #600633账号
       "client_id": "4g0ucoqrwtn92dxq",
       "grant_type": "application_code",
       "scope": "app_scope"
