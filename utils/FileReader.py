@@ -67,7 +67,6 @@ class ExcelReader:
                 s = workbook.sheet_by_index(self.sheet)
             else:
                 s = workbook.sheet_by_name(self.sheet)
-
             if self.title_line:
                 title = s.row_values(0)  # 首行为title
                 for col in range(1, s.nrows):
@@ -84,7 +83,8 @@ class ExcelReader:
 
 
 if __name__ == '__main__':
-    e = r'F:\PyCharm\py_work\UI_AOTO\data\wxInquiryImportTemplate.xls'
-    print(ExcelReader(e,sheet =1).get())
+    e = r'F:\PyCharm\py_work\IF_AOTO\data\供应商接口测试.xls'
+    a = ExcelReader(e,title_line=False)
+    print(a.max_row)
 
 
