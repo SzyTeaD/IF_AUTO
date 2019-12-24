@@ -79,7 +79,7 @@ class ExcelReader:
                     self._data.append(s.row_values(col))
         return self._data
 
-    def get(self,i= 0):
+    def get(self, i=0):
         return self.data[i]
 
 
