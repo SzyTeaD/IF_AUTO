@@ -4,7 +4,8 @@ from email.header import Header
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-from config.main_pathes import REPORT_PATH, NOW, DAY, PROJECTINFO, LOG_PATH
+from config.main_pathes import  NOW, DAY, PROJECTINFO, LOG_PATH
+from project.supplier_management.common.project_path import REPORT_PATH
 from utils.FileReader import YamlReader
 
 
