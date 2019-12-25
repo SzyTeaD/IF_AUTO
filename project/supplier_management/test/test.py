@@ -1,7 +1,6 @@
 import unittest
 
 from config.main_pathes import PROJECTINFO
-from project.supplier_management.common.mail import Mail
 from project.supplier_management.common.project_path import DATA_PATH
 from utils.basePage import BasePage
 from utils.fileReader import YamlReader, ExcelReader
