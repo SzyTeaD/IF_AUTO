@@ -1,8 +1,10 @@
 import os
 import unittest
 
-from config.pathes import REPORT_PATH, NOW, CASE_PATH
+from config.pathes import NOW
+from project.supplier_management.common.project_path import REPORT_PATH, CASE_PATH
 from utils import HTMLTestRunnerCN
+
 
 def runner(test):
     discover = unittest.defaultTestLoader.discover(start_dir=CASE_PATH,
