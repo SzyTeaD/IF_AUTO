@@ -20,7 +20,7 @@ class SupplierManagementTest():
         title = self.bp.get_title()
         url = self.HOST + self.bp.url_adress()
         expected_results = self.bp.expected_results()
-        par = self.bp.params()    # 读取变量，默认第一行
+        par = self.bp.params()
         head = {'Authorization': 'Token %s' % self.token}
         data = {
             "type": "0"
