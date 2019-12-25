@@ -10,7 +10,6 @@ NOW = DAY + TIME
 HOME_PATH = os.path.split(os.path.dirname(os.path.abspath(__file__)))[0]
 CONFIG_PATH = os.path.join(HOME_PATH, 'config')
 LOG_PATH = os.path.join(HOME_PATH, 'log')
-REPORT_PATH = os.path.join(HOME_PATH, 'report')
 USERINFO = os.path.join(CONFIG_PATH, 'UserInfo.yml')
 PROJECTINFO = os.path.join(CONFIG_PATH, 'ProjectInfo.yml')
 
