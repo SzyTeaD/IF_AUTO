@@ -1,3 +1,6 @@
+import ast
+import json
+
 import requests
 
 from config.main_pathes import PROJECTINFO
@@ -17,15 +20,10 @@ class SupplierManagementTest():
 
 
     def test1_params_list(self):
-        title = self.bp.get_title()
         url = self.HOST + self.bp.url_adress()
-        expected_results = self.bp.expected_results()
-        par = self.bp.params()
-        head = {'Authorization': 'Token %s' % self.token}
-        data = {
-            "type": "0"
-        }
-        r = requests.get(url, headers=head, params=data)
+        datas = self.bp.params()
+        headers = {'Authorization': 'Token %s' % self.token}
+        r = self.bp.send_requests(url, headers=headers, json=datas)
         print(r.text)
 
 
