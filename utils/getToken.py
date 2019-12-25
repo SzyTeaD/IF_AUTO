@@ -1,7 +1,7 @@
 import requests
 import json
 
-from config.pathes import PROJECTINFO
+from config.main_pathes import PROJECTINFO
 from utils.FileReader import YamlReader
 
 

@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from config.pathes import NOW
+from config.main_pathes import NOW
 from project.supplier_management.common.project_path import REPORT_PATH, CASE_PATH
 from utils import HTMLTestRunnerCN
 

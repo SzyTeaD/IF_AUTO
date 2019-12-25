@@ -3,7 +3,7 @@ import os
 import logging
 from logging.handlers import TimedRotatingFileHandler
 
-from config.pathes import  LOG_PATH, PROJECTINFO, NOW, DAY
+from config.main_pathes import  LOG_PATH, PROJECTINFO, NOW, DAY
 from utils.FileReader import YamlReader
 
 
