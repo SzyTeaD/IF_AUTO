@@ -7,7 +7,7 @@ from utils.fileReader import ExcelReader
 
 
 class BasePage(object):
-    def __init__(self, file, num=0):
+    def __init__(self, file, num):
         self.num = num
         self.file = file
         self.excel = ExcelReader(self.file)

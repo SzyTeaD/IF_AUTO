@@ -21,7 +21,7 @@ SupplierManagement:
       "scope": "app_scope"
       }
   log:
-    file_name: ETPSS.log
+    file_name: SUPMANAGE.log
     backup: 5
     console_level: WARNING
     file_level: DEBUG
