@@ -1,6 +1,7 @@
 import requests
 
-from project.supplier_management.common.project_path import PROJECTINFO, DATA_PATH
+from config.main_pathes import PROJECTINFO
+from project.supplier_management.common.project_path import  DATA_PATH
 from utils.FileReader import YamlReader, ExcelReader
 from utils.getToken import get_token
 
