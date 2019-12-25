@@ -25,6 +25,18 @@ class Mail(object):
         new_report = os.path.join(REPORT_PATH, lists[-1])        # 获取最近时间的
         return new_report
 
+    def remove_log(self):
+        """删除多余邮件"""
+        while True:
+            lists = os.listdir(REPORT_PATH)
+            log_count = len(set(lists))
+            if log_count <= 5:
+                break
+            else:
+                lists.sort(key=lambda fn: os.path.getmtime(REPORT_PATH))
+                old_log_file = os.path.join(REPORT_PATH, lists[0])
+                os.remove(old_log_file)
+
     def new_log(self):
         lists = os.listdir(LOG_PATH)
         lists.sort(key=lambda fn: os.path.getmtime(LOG_PATH))
@@ -33,6 +45,7 @@ class Mail(object):
         return new_log
 
     def send_mail(self):
+        self.remove_log()
         body_main = self.new_log()
         report = self.new_report()
         msg = MIMEMultipart()
@@ -53,6 +66,5 @@ class Mail(object):
 
 
 if __name__ == '__main__':
-    l = []
-    receusers = YamlReader(PROJECTINFO).get('GYS-GL').get('o')
-    print(receusers)
+    em = Mail('GYS-GL')
+    em.remove_log()
