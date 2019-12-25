@@ -4,7 +4,7 @@ import logging
 from logging.handlers import TimedRotatingFileHandler
 
 from config.main_pathes import  LOG_PATH, PROJECTINFO, NOW, DAY
-from utils.FileReader import YamlReader
+from utils.fileReader import YamlReader
 
 
 class Logger(object):

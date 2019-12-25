@@ -2,7 +2,7 @@ import requests
 import json
 
 from config.main_pathes import PROJECTINFO
-from utils.FileReader import YamlReader
+from utils.fileReader import YamlReader
 
 
 def get_token(project=None):

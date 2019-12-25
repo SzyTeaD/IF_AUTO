@@ -1,25 +1,34 @@
 import requests
 
 from config.main_pathes import PROJECTINFO
-from project.supplier_management.common.project_path import  DATA_PATH
-from utils.FileReader import YamlReader, ExcelReader
+from project.supplier_management.common.project_path import DATA_PATH
+from utils.basePage import BasePage
+from utils.fileReader import YamlReader
 from utils.getToken import get_token
 
 
+class SupplierManagementTest():
+    def __init__(self):
+        file = '%s\IFcase_SupplierManagement.xlsx' % DATA_PATH
+        self.bp = BasePage(file)
+        self.project = 'SupplierManagement'  # 定义项目
+        self.token = get_token(self.project)  # 获取TOKEN
+        self.HOST = YamlReader(PROJECTINFO).get(self.project).get('HOST')  # 获取HOST
 
 
+    def test1_params_list(self):
+        title = self.bp.get_title()
+        url = self.HOST + self.bp.url_adress()
+        expected_results = self.bp.expected_results()
+        par = self.bp.params()    # 读取变量，默认第一行
+        head = {'Authorization': 'Token %s' % self.token}
+        data = {
+            "type": "0"
+        }
+        r = requests.get(url, headers=head, params=data)
+        print(r.text)
 
 
-head = {'Authorization': 'Token %s' % get_token('ETPSS')}
-print(DATA_PATH+'\IFcase_SupplierManagement.xlsx')
-ex = ExcelReader(DATA_PATH+'\IFcase_SupplierManagement.xlsx').data[0]
-url = YamlReader(PROJECTINFO).get('ETPSS').get('HOST') + ex.get('前置条件')
-print(ex.get('步骤'))
-pars = ex.get('步骤')
-
-par = {
-    "type": "0"
-}
-'F:\PyCharm\py_work\IF_AOTO\data\IFcase_SupplierManagement.xlsx'
-r = requests.get(url, headers=head, params=par)
-print(r.text)
+if __name__ == '__main__':
+    test = SupplierManagementTest()
+    test.test1_params_list()

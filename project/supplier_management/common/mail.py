@@ -6,7 +6,7 @@ from email.mime.multipart import MIMEMultipart
 
 from config.main_pathes import  NOW, DAY, PROJECTINFO, LOG_PATH
 from project.supplier_management.common.project_path import REPORT_PATH
-from utils.FileReader import YamlReader
+from utils.fileReader import YamlReader
 
 
 class Mail(object):
