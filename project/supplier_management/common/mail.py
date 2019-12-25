@@ -54,5 +54,5 @@ class Mail(object):
 
 if __name__ == '__main__':
     l = []
-    receusers = YamlReader(PROJECTINFO).get('ETPSS').get('o')
+    receusers = YamlReader(PROJECTINFO).get('GYS-GL').get('o')
     print(receusers)

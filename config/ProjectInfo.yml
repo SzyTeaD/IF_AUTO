@@ -9,7 +9,7 @@ token:
     "scope": "app_scope"
   }
 
-ETPSS:
+GYS-GL:
   HOST: 'http://106.74.152.35:13249/'
   token:
     url: 'http://auth.mst.casicloud.com/1/token/create?client_id=4g0ucoqrwtn92dxq&sign=ir834960bnjghze8343afajga'
@@ -26,3 +26,8 @@ ETPSS:
     console_level: WARNING
     file_level: DEBUG
     pattern: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+
+  mail:
+    senduser: '676307573@qq.com'
+    sendpswd: 'atcimddyfallbebb'
+    receusers: ['676307573@qq.com']
