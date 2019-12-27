@@ -7,7 +7,7 @@ from utils.fileReader import ExcelReader
 
 
 class BasePage(object):
-    def __init__(self, file, num):
+    def __init__(self, file, num=0):
         self.num = num
         self.file = file
         self.excel = ExcelReader(self.file)
@@ -36,10 +36,10 @@ class BasePage(object):
     def expected_results(self):
         # 读取预期结果，默认第一行
         expected_results = self.workbook().get('预期')
-        return expected_results
+        return ast.literal_eval(expected_results)
 
     def get_method(self):
-        # 获取预期结果，默认第一行
+        # 获取方法
         method = self.workbook().get('关键词')
         return method
 

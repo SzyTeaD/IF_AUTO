@@ -1,21 +1,30 @@
 import time
+import unittest
 
 
-def assert_before_time(hours,minutes):
-    H = int(time.strftime('%H', time.localtime(time.time())))
-    M = int(time.strftime('%M', time.localtime(time.time())))
-    if H < int(hours) and M < int(minutes):
-            print('在规定时间内操作')
-    else:
-        raise AssertionError('已经超出时间！')
+class AssertSetIF(object):
+    def __init__(self):
+        self.failureException = AssertionError
 
-def assert_after_time(hours,minutes):
-    H = int(time.strftime('%H', time.localtime(time.time())))
-    M = int(time.strftime('%M', time.localtime(time.time())))
-    if H > int(hours) and M > int(minutes):
-            print('在规定时间内操作')
-    else:
-        raise AssertionError('未到工作时间！')
+    def formatMessage(self, msg, standardMsg):
+        try:
+            return '%s : %s' % (standardMsg, msg)
+        except UnicodeDecodeError:
+            return '%s : %s' % (standardMsg, msg)
 
-if __name__ == '__main__':
-    assert_after_time(10,30)
+    def fail(self, msg=None):
+        raise self.failureException(msg)
+
+    def assertIn(self, member, container, msg=None):
+        if member not in container:
+            standardMsg = '%s not found in %s' % (member, container)
+            self.fail(self.formatMessage(msg, standardMsg))
+
+    def assertIs(self, par1, par2, msg=None):
+        if par1 is not par2:
+            standardMsg = '%s is not %s' % (par1, par2)
+            self.fail(self.formatMessage(msg, standardMsg))
+
+class f1(unittest.TestCase):
+    def a(self):
+        self.assertIs()
