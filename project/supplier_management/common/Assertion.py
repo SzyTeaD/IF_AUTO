@@ -21,7 +21,7 @@ class AssertSetIF(object):
             self.fail(self.formatMessage(msg, standardMsg))
 
     def assertIs(self, par1, par2, msg=None):
-        if par1 is not par2:
+        if par1 != par2:
             standardMsg = '%s is not %s' % (par1, par2)
             self.fail(self.formatMessage(msg, standardMsg))
 

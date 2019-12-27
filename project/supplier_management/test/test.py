@@ -38,7 +38,8 @@ class SupplierManagementTest(object):
             r = bp.send_requests(url, data_type, headers=h, json=datas)  # 发送请求
             return_code = str(r.status_code)
             # print(type(str(expected['code'])), type(return_code))
-            self.ast.assertIs(200, 200)
+            print(return_code)
+            self.ast.assertIs(return_code, '200')
             # self.ast.assertIs(str(expected['code']).replace(' ',''), return_code)
             self.logger.info('返回状态码：%s' % r.status_code)
 
