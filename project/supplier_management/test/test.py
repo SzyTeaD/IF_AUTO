@@ -53,5 +53,5 @@ if __name__ == '__main__':
     project = 'SupplierManagement'
     file = 'Data_of_sample.xlsx'
     test = SupplierManagementTest(project, file)
-    test.runner('data')
+    test.runner()
 

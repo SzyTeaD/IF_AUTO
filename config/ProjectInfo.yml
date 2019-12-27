@@ -23,8 +23,8 @@ SupplierManagement:
   log:
     file_name: SUPMANAGE.log
     backup: 5
-    console_level: WARNING
-    file_level: DEBUG
+    console_level: INFO
+    file_level: INFO
     pattern: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
   mail:

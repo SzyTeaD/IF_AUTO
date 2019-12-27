@@ -52,11 +52,11 @@ class Logger(object):
             lf.setFormatter(self.ft)
             lf.setLevel(self.file_output_level)
             self.logger.addHandler(lf)
-            # 在控制台输出日志信息
-            ls = logging.StreamHandler()
-            ls.setFormatter(self.ft)
-            ls.setLevel(self.file_output_level)
-            self.logger.addHandler(ls)
+            # # 仅在控制台输出日志信息
+            # ls = logging.StreamHandler()
+            # ls.setFormatter(self.ft)
+            # ls.setLevel(self.file_output_level)
+            # self.logger.addHandler(ls)
         return self.logger
 
 
