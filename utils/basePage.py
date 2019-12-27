@@ -47,15 +47,21 @@ class BasePage(object):
         max_rows = self.excel.max_rows
         return max_rows
 
-    def send_requests(self, url, headers=None, params=None, json=None, data=None, **kwargs):
+    def send_requests(self, url, data_type='json', headers=None, params=None, json=None, data=None, **kwargs):
         if self.get_method() == 'get':
-            return self.res.get(url, headers=headers, params=params, **kwargs)
+            r = self.res.get(url, headers=headers, params=params, **kwargs)
+            return r
         elif self.get_method() == 'post':
-            return self.res.post(url, headers=headers, data=data, json=json, **kwargs)
+            if data_type == 'json':
+                r = self.res.post(url, headers=headers, json=json, **kwargs)  # 发送请求
+                return r
+            elif data_type == 'text':
+                r = self.res.post(url, headers=headers, data=data, **kwargs)  # 发送请求
+                return r
+            else:
+                print("请确认您的数据格式，仅支持json和text")
         else:
             raise TypeError('不支持此类型请求，请尝试post或者get方式')
-
-
 
 
 if __name__ == '__main__':

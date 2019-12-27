@@ -23,7 +23,6 @@ class Logger(object):
         pattern = c.get('pattern') if c and c.get('pattern') else '%(asctime)s - %(name)s - %(levelname)s - %(message)s'    # 日志输出格式
         self.ft = logging.Formatter(pattern)
 
-
     def remove_log(self):
         """删除多余日志"""
         while True:
