@@ -5,36 +5,51 @@ class AssertSetIF(object):
     def __init__(self, project):
         self.project = project
         self.logger = Logger(self.project).get_logger()
-        self.failureException = AssertionError
-
-
-    def fail(self,msg):
-        raise self.failureException(msg)
 
     def assertIn(self, member, container):
-        if member not in container:
-            standardMsg = '%s not found in %s' % (member, container)
-            self.fail(standardMsg)
-
-    def assertIs(self, par1, par2):
         try:
-            par1 == par2
-            self.logger.info('测试通过')
-        except:
-            standardMsg = '%s is not %s' % (par1, par2)
-            self.logger.error(self.fail(standardMsg))
+            if member in container:
+                self.logger.info('测试通过')
+            else:
+                raise AssertionError
+        except Exception:
+            standardMsg = '%s not found in %s' % (member, container)
+            self.logger.error('测试未通过:%s' % standardMsg)
 
+    def assertEqual(self, par1, par2):
+        try:
+            if par1 == par2:
+                self.logger.info('测试通过')
+            else:
+                raise AssertionError
+        except Exception:
+            standardMsg = '%s is not %s' % (par1, par2)
+            self.logger.error('测试未通过:%s' % standardMsg)
+
+    def assertNotIn(self, member, container):
+        try:
+            if member not in container:
+                self.logger.info('测试通过')
+            else:
+                raise AssertionError
+        except Exception:
+            standardMsg = '%s found in %s' % (member, container)
+            self.logger.error('测试未通过:%s' % standardMsg)
+
+    def assertNotEqual(self, par1, par2):
+        try:
+            if par1 != par2:
+                self.logger.info('测试通过')
+            else:
+                raise AssertionError
+        except Exception:
+            standardMsg = '%s == %s' % (par1, par2)
+            self.logger.error('测试未通过:%s' % standardMsg)
 
 
 if __name__ == '__main__':
     a = AssertSetIF('SupplierManagement')
-    a.assertIs('200', 200)
-    # try:
-    #     a.assertIn('DG1sd', 'aGDSGSADGsdgasdg0ASF0')
-    # except:
-    #     print(24)
+    a.assertIn('saf', 'gssdga')
 
-# class f1(unittest.TestCase):
-#     def a(self):
-#         self.assertIs()
-#
+
+
