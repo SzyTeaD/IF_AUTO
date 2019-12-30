@@ -1,4 +1,5 @@
 import ast
+import json
 
 import requests
 
@@ -53,7 +54,7 @@ class BasePage(object):
             return r
         elif self.get_method() == 'post':
             if data_type == 'json':
-                r = self.res.post(url, headers=headers, json=json, **kwargs)  # 发送请求
+                r = self.res.post(url, headers=headers, json=json.dumps(json), **kwargs)  # 发送请求
                 return r
             elif data_type == 'text':
                 r = self.res.post(url, headers=headers, data=data, **kwargs)  # 发送请求
