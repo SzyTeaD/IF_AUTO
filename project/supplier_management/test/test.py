@@ -38,8 +38,8 @@ class SupplierManagementTest(object):
             h = headers if headers!=None else {'Authorization': 'Token %s' % self.token, "Content-Type": "application/json"}
             r = bp.send_requests(url, data_type, headers=h, json=datas)  # 发送请求
             return_code = str(r.status_code)
-            self.ast.assertIs(return_code, '200')
-            self.ast.assertIs(str(expected['code']).replace(' ', ''), return_code)
+            self.ast.assertEqual(return_code, '200')
+            self.ast.assertEqual(str(expected['code']).replace(' ', ''), return_code)
             self.logger.info('返回状态码：%s' % r.status_code)
 
             # self.logger.info('返回码：%s' % bp.get_title())
