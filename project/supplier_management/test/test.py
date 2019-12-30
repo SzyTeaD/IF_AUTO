@@ -34,13 +34,13 @@ class SupplierManagementTest(object):
             expected = bp.expected_results()    # 获取预期结果
             self.logger.info('开始%s测试' % title)
             url = self.HOST + bp.url_adress()
-            self.logger.info('测试接口：%s' % url)
-            h = headers if headers!=None else {'Authorization': 'Token %s' % self.token, "Content-Type": "application/json"}
-            r = bp.send_requests(url, data_type, headers=h, data=datas)  # 发送请求
-            return_code = str(r.status_code)
-            self.ast.assertEqual(return_code, '200')
-            self.ast.assertEqual(str(expected['code']).replace(' ', ''), return_code)
-            self.logger.info('返回状态码：%s' % r.status_code)
+            self.logger.info('测试接口：%s' % url)   # 输出接口地址
+            h = headers if headers!=None else {'Authorization': 'Token %s' % self.token,
+                                               "Content-Type": "application/json"}
+            r = bp.send_requests(url, 'text', headers=h, data=datas)  # 发送请求
+            return_code = str(r.status_code)    # 获取返回码
+            self.ast.assertEqual(str(expected['code']).replace(' ', ''),
+                                 return_code, '-----返回码：%s' % return_code)   # 判断返回码是否正确
 
             # self.logger.info('返回码：%s' % bp.get_title())
             # self.false_list.append(bp.get_title())

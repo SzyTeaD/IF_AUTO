@@ -48,9 +48,9 @@ class BasePage(object):
         max_rows = self.excel.max_rows
         return max_rows
 
-    def send_requests(self, url, data_type='json', headers=None, params=None, data=None, **kwargs):
+    def send_requests(self, url, data_type=None, headers=None, data=None, **kwargs):
         if self.get_method() == 'get':
-            r = self.res.get(url, headers=headers, params=params, **kwargs)
+            r = self.res.get(url, headers=headers, params=data, **kwargs)
             return r
         elif self.get_method() == 'post':
             if data_type == 'json':
