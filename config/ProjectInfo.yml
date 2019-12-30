@@ -21,7 +21,7 @@ SupplierManagement:
       "scope": "app_scope"
       }
   log:
-    file_name: SUPMANAGE.log
+    file_name: Supplier.log
     backup: 5
     console_level: INFO
     file_level: INFO

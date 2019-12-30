@@ -1,30 +1,40 @@
-import time
-import unittest
+from utils.log import Logger
 
 
 class AssertSetIF(object):
-    def __init__(self):
+    def __init__(self, project):
+        self.project = project
+        self.logger = Logger(self.project).get_logger()
         self.failureException = AssertionError
 
-    def formatMessage(self, msg, standardMsg):
-        try:
-            return '%s : %s' % (standardMsg, msg)
-        except UnicodeDecodeError:
-            return '%s : %s' % (standardMsg, msg)
 
-    def fail(self, msg=None):
+    def fail(self,msg):
         raise self.failureException(msg)
 
-    def assertIn(self, member, container, msg=None):
+    def assertIn(self, member, container):
         if member not in container:
             standardMsg = '%s not found in %s' % (member, container)
-            self.fail(self.formatMessage(msg, standardMsg))
+            self.fail(standardMsg)
 
-    def assertIs(self, par1, par2, msg=None):
-        if par1 != par2:
+    def assertIs(self, par1, par2):
+        try:
+            par1 == par2
+            self.logger.info('测试通过')
+        except:
             standardMsg = '%s is not %s' % (par1, par2)
-            self.fail(self.formatMessage(msg, standardMsg))
+            self.logger.error(self.fail(standardMsg))
 
-class f1(unittest.TestCase):
-    def a(self):
-        self.assertIs()
+
+
+if __name__ == '__main__':
+    a = AssertSetIF('SupplierManagement')
+    a.assertIs('200', 200)
+    # try:
+    #     a.assertIn('DG1sd', 'aGDSGSADGsdgasdg0ASF0')
+    # except:
+    #     print(24)
+
+# class f1(unittest.TestCase):
+#     def a(self):
+#         self.assertIs()
+#

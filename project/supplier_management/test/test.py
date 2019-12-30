@@ -24,7 +24,7 @@ class SupplierManagementTest(object):
         self.HOST = YamlReader(PROJECTINFO).get(self.project).get('HOST')  # 获取HOST
         self.logger = Logger(self.project).get_logger()
         self.max_rows = rows if rows else ExcelReader(self.file).max_rows
-        self.ast = AssertSetIF()
+        self.ast = AssertSetIF(self.project)
 
     def runner(self, data_type='json', headers=None):
         for i in range(self.max_rows):
