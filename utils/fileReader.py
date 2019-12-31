@@ -71,7 +71,7 @@ class ExcelReader:
     @property
     def max_rows(self):
         if self.title_line:
-            count = int(self.s.nrows)-3
+            count = int(self.s.nrows)
             return count
         else:
             count = int(self.s.nrows)
