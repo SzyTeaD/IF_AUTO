@@ -16,5 +16,5 @@ def get_token(project=None):
 
 
 if __name__ == '__main__':
-    token = get_token()
+    token = get_token('SupplierManagement')
     print(token)

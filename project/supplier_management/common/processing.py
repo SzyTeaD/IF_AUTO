@@ -32,7 +32,7 @@ class Processing(object):
     def runner(self, caseNum, headers=None):
         bp = BasePage(self.file, self.project, caseNum)
         title = bp.get_title()  # 获取用例标题
-        datas = bp.params()  # 获取参数
+        boby = bp.params()  # 获取参数
         expected = bp.expected_results()    # 获取预期结果
         self.logger.info('开始%s测试' % title)
         url = self.HOST + bp.url_adress()
@@ -41,8 +41,7 @@ class Processing(object):
         h = headers if headers!=None else {"Authorization": "Token %s" % self.token,
                                            "Content-Type": "application/json",
                                            "Connection": "keep-alive"}
-        # r = requests.post(url, headers=h, json=datas)
-        r = bp.send_requests(url, h, datas)  # 发送请求
+        r = bp.send_requests(url, h, boby)  # 发送请求
         return_code = str(r.status_code)    # 获取返回码
         self.ast.assertEqual(return_code, str(expected['code']).replace(' ', ''),
                              '-----返回码：%s' % return_code)   # 判断返回码是否正确
@@ -60,7 +59,7 @@ if __name__ == '__main__':
     project = 'SupplierManagement'
     file = 'Data_of_sample.xlsx'
     test = Processing(project, file)
-    test.runner(0)
+    test.runner(1)
 
 
 
