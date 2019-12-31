@@ -5,10 +5,11 @@ import requests
 
 from project.supplier_management.common.project_path import DATA_PATH
 from utils.fileReader import ExcelReader
+from utils.log import Logger
 
 
 class BasePage(object):
-    def __init__(self, file, num=0):
+    def __init__(self, file, project, num=0):
         """
         :param file:用例文件名称
         :param num: 执行用例数量
@@ -17,6 +18,9 @@ class BasePage(object):
         self.file = file
         self.excel = ExcelReader(self.file)
         self.res = requests
+        self.project = project  # 定义项目
+        self.logger = Logger(self.project).get_logger()
+
 
     def workBook(self):
         # 获取用例
@@ -36,7 +40,10 @@ class BasePage(object):
     def params(self):
         # 获取参数，默认第一行
         params = self.workBook().get('步骤')
-        return ast.literal_eval(params)
+        if params == 'None':
+            self.logger.warn('未传入参数')
+        else:
+            return ast.literal_eval(params)
 
     def expected_results(self):
         # 读取预期结果，默认第一行
