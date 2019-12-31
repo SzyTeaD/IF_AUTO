@@ -21,16 +21,19 @@ class Processing(object):
         :param rows: 执行用例数，默认为全部执行
         """
         self.false_list = []
-        self.file = "%s\\" % DATA_PATH + filename
         self.project = project  # 定义项目
-        self.token = get_token(self.project)  # 获取TOKEN
-        self.HOST = YamlReader(PROJECTINFO).get(self.project).get('HOST')  # 获取HOST
-        self.logger = Logger(self.project).get_logger()
-        self.max_rows = rows if rows else int(ExcelReader(self.file).max_rows)-3
+        self.file = "%s\\" % DATA_PATH + filename
         self.ast = AssertSetIF(self.project)
+        self.token = get_token(self.project)  # 获取TOKEN
+        self.logger = Logger(self.project).get_logger()
+        self.HOST = YamlReader(PROJECTINFO).get(self.project).get('HOST')  # 获取HOST
+        self.max_caseNum = rows if rows else int(ExcelReader(self.file).max_rows)-3
 
-    def runner(self, caseNum, headers=None):
-        bp = BasePage(self.file, self.project, caseNum)
+    def runner(self, i, headers=None):
+        """
+        :param i: 执行用例编号
+        """
+        bp = BasePage(self.file, self.project, i)
         title = bp.get_title()  # 获取用例标题
         boby = bp.params()  # 获取参数
         expected = bp.expected_results()    # 获取预期结果
@@ -59,9 +62,8 @@ if __name__ == '__main__':
     project = 'SupplierManagement'
     file = 'Data_of_sample.xlsx'
     test = Processing(project, file)
-    caseNum = test.max_rows
-    print(caseNum)
-    for i in range(caseNum):
+    caseNum = test.max_caseNum
+    for i in range(test.max_caseNum):
         test.runner(i)
 
 
