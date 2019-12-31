@@ -2,7 +2,7 @@ import json
 import unittest
 
 from config.main_pathes import PROJECTINFO
-from project.supplier_management.common.Assertion import AssertSetIF
+from project.supplier_management.common.assertion import AssertSetIF
 from project.supplier_management.common.project_path import DATA_PATH
 from utils.basePage import BasePage
 from utils.fileReader import YamlReader, ExcelReader
@@ -10,7 +10,7 @@ from utils.getToken import get_token
 from utils.log import Logger
 
 
-class SupplierManagementTest(object):
+class Processing(object):
     def __init__(self, project, filename, rows=None):
         """
         :param project: 在配置文件中配置项目名称
@@ -54,7 +54,7 @@ if __name__ == '__main__':
     project = 'SupplierManagement'
     file = 'Data_of_sample.xlsx'
     test = SupplierManagementTest(project, file)
-    test.runner(0)
+    test.runner(1)
 
 
 

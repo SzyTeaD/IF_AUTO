@@ -72,7 +72,7 @@ class BasePage(object):
             if self.get_dataType() == 'json':
                 r = self.res.post(url, headers=headers, json=json.dumps(data), **kwargs)  # 发送请求
                 return r
-            elif self.get_dataType() == 'text':
+            elif self.get_dataType() == 'data':
                 r = self.res.post(url, headers=headers, data=data, **kwargs)  # 发送请求
                 return r
             else:
