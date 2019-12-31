@@ -26,7 +26,7 @@ class Processing(object):
         self.token = get_token(self.project)  # 获取TOKEN
         self.HOST = YamlReader(PROJECTINFO).get(self.project).get('HOST')  # 获取HOST
         self.logger = Logger(self.project).get_logger()
-        self.max_rows = rows if rows else ExcelReader(self.file).max_rows
+        self.max_rows = rows if rows else int(ExcelReader(self.file).max_rows)
         self.ast = AssertSetIF(self.project)
 
     def runner(self, caseNum, headers=None):
@@ -59,7 +59,10 @@ if __name__ == '__main__':
     project = 'SupplierManagement'
     file = 'Data_of_sample.xlsx'
     test = Processing(project, file)
-    test.runner(1)
+    caseNum = test.max_rows
+    print(caseNum)
+    for i in range(caseNum):
+        test.runner(i)
 
 
 

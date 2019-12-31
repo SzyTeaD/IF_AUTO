@@ -16,7 +16,7 @@ class BasePage(object):
         :param caseNum: 执行用例数量
         """
         self.file = file
-        self.num = caseNum
+        self.num = int(caseNum)
         self.res = requests
         self.project = project
         self.excel = ExcelReader(self.file)
