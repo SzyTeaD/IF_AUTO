@@ -27,29 +27,23 @@ class SupplierManagementTest(object):
         self.ast = AssertSetIF(self.project)
 
     def runner(self, data_type=None, headers=None):
-        for i in range(self.max_rows):
-            bp = BasePage(self.file, i)
-            title = bp.get_title()  # 获取用例标题
-            datas = bp.params()  # 获取参数
-            expected = bp.expected_results()    # 获取预期结果
-            self.logger.info('开始%s测试' % title)
-            url = self.HOST + bp.url_adress()
-            self.logger.info('测试接口：%s' % url)   # 输出接口地址
-            h = headers if headers!=None else {'Authorization': 'Token %s' % self.token,
-                                               "Content-Type": "application/json"}
-            r = bp.send_requests(url, data_type, headers=h, data=datas)  # 发送请求
-            return_code = str(r.status_code)    # 获取返回码
-            self.ast.assertEqual(str(expected['code']).replace(' ', ''),
-                                 return_code, '-----返回码：%s' % return_code)   # 判断返回码是否正确
-
-            # self.logger.info('返回码：%s' % bp.get_title())
-            # self.false_list.append(bp.get_title())
-            # return_data = r.json().get('data')
-            # assert(return_data, expected, self.logger.info('返回数据：%s' % r.return_data))
-            # self.logger.info('返回数据错误：%s' % bp.get_title())
-            # self.false_list.append(bp.get_title())
-            # # self.logger.info(r.text)
-
+        bp = BasePage(self.file, 1)
+        title = bp.get_title()  # 获取用例标题
+        datas = bp.params()  # 获取参数
+        expected = bp.expected_results()    # 获取预期结果
+        self.logger.info('开始%s测试' % title)
+        url = self.HOST + bp.url_adress()
+        self.logger.info('测试接口：%s' % url)   # 输出接口地址
+        h = headers if headers!=None else {'Authorization': 'Token %s' % self.token,
+                                           "Content-Type": "application/json"}
+        r = bp.send_requests(url, data_type, headers=h, data=datas)  # 发送请求
+        return_code = str(r.status_code)    # 获取返回码
+        self.ast.assertEqual(return_code, str(expected['code']).replace(' ', ''),
+                             '-----返回码：%s' % return_code)   # 判断返回码是否正确
+        return_data = r.json().get('data')  # 获取返回数据
+        self.ast.assertIn(str(expected['data']), str(return_data),
+                          '-----返回数据：%s' % return_data)
+        self.logger.info('--------------------------------------------------------------')
 
     def false_log(self):
         false_list = set(self.false_list)
@@ -59,7 +53,14 @@ class SupplierManagementTest(object):
 if __name__ == '__main__':
     project = 'SupplierManagement'
     file = 'Data_of_sample.xlsx'
-    test = SupplierManagementTest(project, file, rows=2)
+    test = SupplierManagementTest(project, file)
     test.runner('json')
-    # a= 'sdaf   111   '
-    # print(a.replace(' ',''))
+
+
+
+
+
+
+
+
+
