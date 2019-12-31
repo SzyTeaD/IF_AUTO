@@ -1,3 +1,6 @@
+import json
+
+
 def add1():
     a = 23
     b = 34
@@ -12,4 +15,9 @@ def ainb():
     else:
         print('not in')
 
-print(ainb())
+a = {"method": "get","data_type": "json"}
+b = str(a)
+print(type(b))
+c = json.dumps(b)
+print(c)
+print(type(c))

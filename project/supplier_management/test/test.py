@@ -26,7 +26,7 @@ class SupplierManagementTest(object):
         self.max_rows = rows if rows else ExcelReader(self.file).max_rows
         self.ast = AssertSetIF(self.project)
 
-    def runner(self, data_type=None, headers=None):
+    def runner(self, headers=None):
         bp = BasePage(self.file, self.project, 0)
         title = bp.get_title()  # 获取用例标题
         datas = bp.params()  # 获取参数
@@ -36,7 +36,7 @@ class SupplierManagementTest(object):
         self.logger.info('测试接口：%s' % url)   # 输出接口地址
         h = headers if headers!=None else {'Authorization': 'Token %s' % self.token,
                                            "Content-Type": "application/json"}
-        r = bp.send_requests(url, data_type, h, datas)  # 发送请求
+        r = bp.send_requests(url, h, datas)  # 发送请求
         return_code = str(r.status_code)    # 获取返回码
         self.ast.assertEqual(return_code, str(expected['code']).replace(' ', ''),
                              '-----返回码：%s' % return_code)   # 判断返回码是否正确

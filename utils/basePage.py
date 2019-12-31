@@ -52,22 +52,26 @@ class BasePage(object):
 
     def get_method(self):
         # 获取方法
-        method = self.workBook().get('关键词')
-        return method
+        method = ast.literal_eval(self.workBook().get('关键词'))
+        return method['request_type']
+
+    def get_dataType(self):
+        method = ast.literal_eval(self.workBook().get('关键词'))
+        return method['data_type']
 
     def max_rows(self):
         max_rows = self.excel.max_rows
         return max_rows
 
-    def send_requests(self, url, data_type=None, headers=None, data=None, **kwargs):
+    def send_requests(self, url, headers=None, data=None, **kwargs):
         if self.get_method() == 'get':
             r = self.res.get(url, headers=headers, params=data, **kwargs)
             return r
         elif self.get_method() == 'post':
-            if data_type == 'json':
+            if self.get_dataType() == 'json':
                 r = self.res.post(url, headers=headers, json=json.dumps(data), **kwargs)  # 发送请求
                 return r
-            elif data_type == 'text':
+            elif self.get_dataType() == 'text':
                 r = self.res.post(url, headers=headers, data=data, **kwargs)  # 发送请求
                 return r
             else:
