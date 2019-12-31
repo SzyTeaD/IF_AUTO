@@ -44,16 +44,16 @@ class BasePage(object):
         if params == 'None':
             self.logger.warn('未传入参数')
         else:
-            return ast.literal_eval(params)
+            return params
 
     def expected_results(self):
         # 读取预期结果，默认第一行
         expected_results = self.workBook().get('预期')
-        return ast.literal_eval(expected_results)
+        return json.loads(expected_results)
 
     def get_resType(self):
         # 获取方法
-        method = ast.literal_eval(self.workBook().get('关键词'))
+        method = json.loads(self.workBook().get('关键词'))
         return method['request_type']
 
     def get_dataType(self):
@@ -70,7 +70,7 @@ class BasePage(object):
             return r
         elif self.get_resType() == 'post':
             if self.get_dataType() == 'json':
-                r = self.res.post(url, headers=headers, json=json.dumps(data), **kwargs)  # 发送请求
+                r = self.res.post(url, headers=headers, json=data, **kwargs)  # 发送请求
                 return r
             elif self.get_dataType() == 'data':
                 r = self.res.post(url, headers=headers, data=data, **kwargs)  # 发送请求
