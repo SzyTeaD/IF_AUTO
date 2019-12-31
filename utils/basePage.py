@@ -11,7 +11,8 @@ from utils.log import Logger
 class BasePage(object):
     def __init__(self, file, project, num=0):
         """
-        :param file:用例文件名称
+        :param file: 用例文件名称
+        :param project: 项目名称
         :param num: 执行用例数量
         """
         self.num = num
@@ -50,7 +51,7 @@ class BasePage(object):
         expected_results = self.workBook().get('预期')
         return ast.literal_eval(expected_results)
 
-    def get_method(self):
+    def get_resType(self):
         # 获取方法
         method = ast.literal_eval(self.workBook().get('关键词'))
         return method['request_type']
@@ -64,10 +65,10 @@ class BasePage(object):
         return max_rows
 
     def send_requests(self, url, headers=None, data=None, **kwargs):
-        if self.get_method() == 'get':
+        if self.get_resType() == 'get':
             r = self.res.get(url, headers=headers, params=data, **kwargs)
             return r
-        elif self.get_method() == 'post':
+        elif self.get_resType() == 'post':
             if self.get_dataType() == 'json':
                 r = self.res.post(url, headers=headers, json=json.dumps(data), **kwargs)  # 发送请求
                 return r

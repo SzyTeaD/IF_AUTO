@@ -26,10 +26,10 @@ class SupplierManagementTest(object):
         self.max_rows = rows if rows else ExcelReader(self.file).max_rows
         self.ast = AssertSetIF(self.project)
 
-    def runner(self, headers=None):
-        bp = BasePage(self.file, self.project, 0)
+    def runner(self, caseNum, headers=None):
+        bp = BasePage(self.file, self.project, caseNum)
         title = bp.get_title()  # 获取用例标题
-        datas = bp.params()  # 获取参数
+        datas = {'3':[{'90': '4'}, {'226': '5'}, {'227': '6'}]}  # 获取参数
         expected = bp.expected_results()    # 获取预期结果
         self.logger.info('开始%s测试' % title)
         url = self.HOST + bp.url_adress()
@@ -54,7 +54,7 @@ if __name__ == '__main__':
     project = 'SupplierManagement'
     file = 'Data_of_sample.xlsx'
     test = SupplierManagementTest(project, file)
-    test.runner()
+    test.runner(0)
 
 
 
