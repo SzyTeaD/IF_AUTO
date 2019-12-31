@@ -13,7 +13,7 @@ class BasePage(object):
         """
         :param file: 用例文件名称
         :param project: 项目名称
-        :param num: 执行用例数量
+        :param caseNum: 执行用例数量
         """
         self.file = file
         self.num = caseNum
