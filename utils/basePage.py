@@ -9,19 +9,18 @@ from utils.log import Logger
 
 
 class BasePage(object):
-    def __init__(self, file, project, num=0):
+    def __init__(self, file, project, caseNum=0):
         """
         :param file: 用例文件名称
         :param project: 项目名称
         :param num: 执行用例数量
         """
-        self.num = num
         self.file = file
-        self.excel = ExcelReader(self.file)
+        self.num = caseNum
         self.res = requests
-        self.project = project  # 定义项目
+        self.project = project
+        self.excel = ExcelReader(self.file)
         self.logger = Logger(self.project).get_logger()
-
 
     def workBook(self):
         # 获取用例
