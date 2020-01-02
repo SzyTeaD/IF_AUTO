@@ -43,8 +43,8 @@ class Processing(object):
                              '用例编号%s; 返回码：%s' % (int(i)+1, return_code))   # 判断返回码是否正确
         return_data = r.json().get('data')  # 获取返回数据
         self.ast.assertIn(str(expected['data']), str(return_data),
-                          '用例编号%s; 返回参数：%s' % (int(i)+1, r.json()))
-        self.logger.info('--------------------------------------------------------------')
+                          '用例编号%s; 返回参数：%s' % (int(i)+1, r.json()))   # 判断返回值是否正确
+        self.logger.info('------------------------本条用例执行结束------------------------')
 
     def false_log(self):
         return self.failList
@@ -57,7 +57,7 @@ if __name__ == '__main__':
     caseNum = test.maxCaseNum
     for i in range(test.maxCaseNum):
         test.runner(i)
-    # print(test.false_log())
+    print(test.false_log())
 
 
 
