@@ -10,7 +10,7 @@ from utils.fileReader import YamlReader
 class Logger(object):
     def __init__(self, progect):
         self.progect = progect
-        self.logger_name = '%stest' % self.progect
+        self.logger_name = self.progect
         self.logger = logging.getLogger(self.logger_name)
         logging.root.setLevel(logging.NOTSET)
         c = YamlReader(PROJECTINFO).get(progect).get('log')
@@ -61,4 +61,4 @@ class Logger(object):
 
 
 if __name__ == '__main__':
-    Logger('ETPSS').get_logger().info('doooo')
+    Logger('SupplierManagement').get_logger().info('doooo')
