@@ -10,7 +10,7 @@ class SupplierIFTest(unittest.TestCase):
 
     def test1_parmeter(self):
         project = 'SupplierManagement'
-        file = 'Data_of_sample.xlsx'
+        file = 'data_of_sample.xlsx'
         dr = Processing(project, file)
         try:
             for i in range(dr.maxCaseNum):
