@@ -10,12 +10,12 @@ from project.supplier_management.common.project_path import FAIL_LOG_PATH
 class FailLogger(object):
     def __init__(self, progect):
         self.progect = progect
-        self.logger_name = self.progect
+        self.logger_name = '%s_Fail' % self.progect
         self.logger = logging.getLogger(self.logger_name)
         logging.root.setLevel(logging.NOTSET)
         if not os.path.exists(FAIL_LOG_PATH):
             os.mkdir(FAIL_LOG_PATH)
-        self.log_file_name = '%s %s_fail_log.log' % (self.progect, DAY)     # 日志文件
+        self.log_file_name = '%s %s_fail_log.log' % (DAY, self.progect)     # 日志文件
         self.backup_count = 10  # 保留的日志数量
         self.console_output_level = 'ERROR'   # 日志输出级别
         self.file_output_level = 'ERROR'

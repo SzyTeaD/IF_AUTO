@@ -46,7 +46,7 @@ class Processing(object):
                           '用例编号%s; 返回参数：%s' % (int(i)+1, r.json()))   # 判断返回值是否正确
         self.logger.info('------------------------本条用例执行结束------------------------')
 
-    def false_log(self):
+    def fail_log(self):
         from project.supplier_management.common.project_fail_log import FailLogger
         failLog = FailLogger(self.project).get_logger()
         failLog.error(self.failList)
