@@ -41,7 +41,7 @@ class BasePage(object):
         # 获取参数，默认第一行
         params = self.workBook().get('步骤')
         if params == 'None':
-            self.logger.warn('未传入参数')
+            self.logger.warning('未传入参数')
         else:
             return ast.literal_eval(params)
 
