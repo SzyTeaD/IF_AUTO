@@ -15,7 +15,7 @@ class FailLogger(object):
         logging.root.setLevel(logging.NOTSET)
         if not os.path.exists(FAIL_LOG_PATH):
             os.mkdir(FAIL_LOG_PATH)
-        self.log_file_name = '%s %s_fail_log' % (self.progect, DAY)     # 日志文件
+        self.log_file_name = '%s %s_fail_log.log' % (self.progect, DAY)     # 日志文件
         self.backup_count = 10  # 保留的日志数量
         self.console_output_level = 'ERROR'   # 日志输出级别
         self.file_output_level = 'ERROR'

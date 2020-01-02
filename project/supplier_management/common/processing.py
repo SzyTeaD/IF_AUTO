@@ -47,7 +47,9 @@ class Processing(object):
         self.logger.info('------------------------本条用例执行结束------------------------')
 
     def false_log(self):
-        return self.failList
+        from project.supplier_management.common.project_fail_log import FailLogger
+        failLog = FailLogger(self.project).get_logger()
+        failLog.error(self.failList)
 
 
 if __name__ == '__main__':
@@ -57,7 +59,7 @@ if __name__ == '__main__':
     caseNum = test.maxCaseNum
     for i in range(test.maxCaseNum):
         test.runner(i)
-    print(test.false_log())
+    test.false_log()
 
 
 

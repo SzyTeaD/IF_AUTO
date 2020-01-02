@@ -9,7 +9,7 @@ HOME_PATH = os.path.split(os.path.split(PROJECT_PATH)[0])[0]
 DATA_PATH = os.path.join(PROJECT_PATH, 'data')
 REPORT_PATH = os.path.join(PROJECT_PATH, 'report')
 CASE_PATH = os.path.join(os.path.join(PROJECT_PATH,'test'), 'case')
-FAIL_LOG_PATH = os.path.join(PROJECT_PATH, 'faillog')
+FAIL_LOG_PATH = os.path.join(PROJECT_PATH, 'fail_log')
 
 
 if __name__ == '__main__':
