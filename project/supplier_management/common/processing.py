@@ -49,7 +49,8 @@ class Processing(object):
     def fail_log(self):
         from project.supplier_management.common.project_fail_log import FailLogger
         failLog = FailLogger(self.project).get_logger()
-        failLog.error(self.failList)
+        for i in self.failList:
+            failLog.error(i)
 
 
 if __name__ == '__main__':
@@ -59,7 +60,7 @@ if __name__ == '__main__':
     caseNum = test.maxCaseNum
     for i in range(test.maxCaseNum):
         test.runner(i)
-    test.false_log()
+    test.fail_log()
 
 
 

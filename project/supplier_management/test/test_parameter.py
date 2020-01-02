@@ -17,6 +17,7 @@ class SupplierIFTest(unittest.TestCase):
                 dr.runner(i)
         except Exception:
             print('失败')
+        dr.fail_log()
 
     @classmethod
     def tearDownClass(self):
