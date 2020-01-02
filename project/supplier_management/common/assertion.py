@@ -15,7 +15,7 @@ class AssertSetIF(object):
                 raise AssertionError
         except Exception:
             standardMsg = '%s not found in %s' % (member, container)
-            self.logger.error('测试未通过:%s%s' % (standardMsg, msg))
+            msg = self.logger.error('测试未通过:%s%s' % (standardMsg, msg))
             self.failList.append(msg)
 
 
@@ -30,7 +30,6 @@ class AssertSetIF(object):
             msg = self.logger.error('测试未通过:%s%s' % (standardMsg, msg))
             self.failList.append(msg)
 
-
     def assertNotIn(self, member, container, msg=''):
         try:
             if member not in container:
@@ -39,7 +38,8 @@ class AssertSetIF(object):
                 raise AssertionError
         except Exception:
             standardMsg = '%s found in %s' % (member, container)
-            self.logger.error('测试未通过:%s%s' % (standardMsg, msg))
+            msg = self.logger.error('测试未通过:%s%s' % (standardMsg, msg))
+            self.failList.append(msg)
 
     def assertNotEqual(self, par1, par2, msg=''):
         try:
@@ -49,7 +49,8 @@ class AssertSetIF(object):
                 raise AssertionError
         except Exception:
             standardMsg = '%s == %s' % (par1, par2)
-            self.logger.error('测试未通过:%s%s' % (standardMsg, msg))
+            msg = self.logger.error('测试未通过:%s%s' % (standardMsg, msg))
+            self.failList.append(msg)
 
 
 if __name__ == '__main__':
