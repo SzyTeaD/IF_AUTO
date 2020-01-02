@@ -19,5 +19,4 @@ if __name__ == '__main__':
     print(CONFIG_PATH)
     print(USERINFO)
     print(PROJECTINFO)
-    print(REPORT_PATH)
 
