@@ -16,7 +16,7 @@ class SupplierIFTest(unittest.TestCase):
             for i in range(dr.maxCaseNum):
                 dr.runner(i)
         except Exception:
-            print('失败')
+            print('测试阻塞')
         dr.fail_log()
 
     @classmethod
