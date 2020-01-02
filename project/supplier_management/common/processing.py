@@ -55,7 +55,7 @@ class Processing(object):
 
 if __name__ == '__main__':
     project = 'SupplierManagement'
-    file = 'Data_of_sample.xlsx'
+    file = 'data_of_sample.xlsx'
     test = Processing(project, file)
     caseNum = test.maxCaseNum
     for i in range(test.maxCaseNum):
