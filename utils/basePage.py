@@ -32,7 +32,7 @@ class BasePage(object):
         title = self.workBook().get('用例标题')
         return title
 
-    def url_adress(self):
+    def api(self):
         # 获取url地址，默认第一行
         url_adress = self.workBook().get('前置条件')
         return url_adress

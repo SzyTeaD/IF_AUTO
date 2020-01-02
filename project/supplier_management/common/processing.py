@@ -1,9 +1,3 @@
-import json
-import unittest
-
-import request
-import requests
-
 from config.main_pathes import PROJECTINFO
 from project.supplier_management.common.assertion import AssertSetIF
 from project.supplier_management.common.project_path import DATA_PATH
@@ -20,11 +14,11 @@ class Processing(object):
         :param filename: 用例文件名称
         :param rows: 执行用例数，默认为全部执行
         """
-        self.false_list = []
         self.project = project  # 定义项目
         self.file = "%s\\" % DATA_PATH + filename
         self.ast = AssertSetIF(self.project)
         self.token = get_token(self.project)  # 获取TOKEN
+        self.failList = self.ast.failList
         self.logger = Logger(self.project).get_logger()
         self.HOST = YamlReader(PROJECTINFO).get(self.project).get('HOST')  # 获取HOST
         self.maxCaseNum = rows if rows else int(ExcelReader(self.file).max_rows)-3
@@ -37,9 +31,8 @@ class Processing(object):
         title = bp.get_title()  # 获取用例标题
         boby = bp.params()  # 获取参数
         expected = bp.expected_results()    # 获取预期结果
-        self.logger.info('开始%s测试' % title)
-        url = self.HOST + bp.url_adress()
-
+        self.logger.info('%s.开始%s测试' % (int(i)+1, title))
+        url = self.HOST + bp.api()
         self.logger.info('测试接口：%s' % url)   # 输出接口地址
         h = headers if headers!=None else {"Authorization": "Token %s" % self.token,
                                            "Content-Type": "application/json",
@@ -54,8 +47,7 @@ class Processing(object):
         self.logger.info('--------------------------------------------------------------')
 
     def false_log(self):
-        false_list = set(self.false_list)
-        print(false_list)
+        return self.failList
 
 
 if __name__ == '__main__':
@@ -65,6 +57,7 @@ if __name__ == '__main__':
     caseNum = test.maxCaseNum
     for i in range(test.maxCaseNum):
         test.runner(i)
+    print(test.false_log())
 
 
 

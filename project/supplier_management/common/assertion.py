@@ -4,6 +4,7 @@ from utils.log import Logger
 class AssertSetIF(object):
     def __init__(self, project):
         self.project = project
+        self.failList = []
         self.logger = Logger(self.project).get_logger()
 
     def assertIn(self, member, container, msg=''):
@@ -15,6 +16,8 @@ class AssertSetIF(object):
         except Exception:
             standardMsg = '%s not found in %s' % (member, container)
             self.logger.error('测试未通过:%s%s' % (standardMsg, msg))
+            self.failList.append(msg)
+
 
     def assertEqual(self, par1, par2, msg=''):
         try:
@@ -24,7 +27,9 @@ class AssertSetIF(object):
                 raise AssertionError
         except Exception:
             standardMsg = '%s is not %s' % (par1, par2)
-            self.logger.error('测试未通过:%s%s' % (standardMsg, msg))
+            msg = self.logger.error('测试未通过:%s%s' % (standardMsg, msg))
+            self.failList.append(msg)
+
 
     def assertNotIn(self, member, container, msg=''):
         try:
