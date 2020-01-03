@@ -34,8 +34,8 @@ class BasePage(object):
 
     def api(self):
         # 获取url地址，默认第一行
-        url_adress = self.workBook().get('前置条件')
-        return url_adress
+        api = self.workBook().get('前置条件')
+        return api
 
     def params(self):
         # 获取参数，默认第一行
@@ -78,6 +78,10 @@ class BasePage(object):
                 print("请确认您的数据格式，仅支持json和text")
         else:
             raise TypeError('不支持此类型请求，请尝试post或者get方式')
+
+
+class ExpectedReturn(object):
+    pass
 
 
 if __name__ == '__main__':
