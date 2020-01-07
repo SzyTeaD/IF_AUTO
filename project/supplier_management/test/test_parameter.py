@@ -17,7 +17,7 @@ class SupplierIFTest(unittest.TestCase):
                 dr.runner(i)
         except Exception:
             print('测试阻塞')
-        dr.fail_log()
+        dr.case_situation()
 
     @classmethod
     def tearDownClass(self):

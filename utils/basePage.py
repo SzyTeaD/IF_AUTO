@@ -16,19 +16,19 @@ class BasePage(object):
         self.res = requests
         self.case = case
 
-    def send_requests(self, url, headers=None, request_type=None, data_type=None, data=None, **kwargs):
+    def send_requests(self, url, headers=None, request_type=None, data_type=None, boby=None, **kwargs):
         request_type = self.case.get_resType() if self.case else request_type
         data_type = self.case.get_dataType() if self.case else data_type
-        data = self.case.params() if self.case else data
+        boby = self.case.params() if self.case else boby
         if request_type == 'get':
-            r = self.res.get(url, headers=headers, params=data, **kwargs)
+            r = self.res.get(url, headers=headers, params=boby, **kwargs)
             return r
         elif request_type == 'post':
             if data_type == 'json':
-                r = self.res.post(url, headers=headers, json=data, **kwargs)  # 发送请求
+                r = self.res.post(url, headers=headers, json=boby, **kwargs)  # 发送请求
                 return r
             elif data_type == 'data':
-                r = self.res.post(url, headers=headers, data=json.dumps(data), **kwargs)  # 发送请求
+                r = self.res.post(url, headers=headers, data=json.dumps(boby), **kwargs)  # 发送请求
                 return r
             else:
                 print("不支持%s类型数据格式，仅支持json和text" % data_type)
