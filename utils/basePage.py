@@ -67,7 +67,7 @@ class GetCase(object):
         # 获取参数，默认第一行
         params = self.workBook().get('步骤')
         if params == 'None':
-            print('未传参数')
+            pass
         else:
             return ast.literal_eval(params)
 
@@ -97,14 +97,14 @@ class ExpectedReturn(object):
 if __name__ == '__main__':
     file = '%s\data_of_sample.xlsx' % DATA_PATH
     project = 'SupplierManagement'
-    case = GetCase(file, project, 1)
+    case = GetCase(file, project, 0)
     bp = BasePage(case)
     h = {"Authorization": "Token %s" % get_token(project), "Content-Type": "application/json"}
-    url = 'http://106.74.152.35:13249/1/srm/config_save'
+    url = 'http://106.74.152.35:13249/1/srm/config_list'
     r = bp.send_requests(url, h)
     print(r.json())
-    bp2 = BasePage()
-    boby = {"1": [{"520": "供应商类型1"},{"521": "供应商类型2"}],"2": [{"522": "供货类型1"},{"523": "供货类型2"}],
-            "3": [{"524": "供应商级别1"},{"525": "供应商级别2"}]}
-    r2 = bp2.send_requests(url, h, 'post', 'json', boby)
-    print(r2.json())
+    # bp2 = BasePage()
+    # boby = {"1": [{"520": "供应商类型1"},{"521": "供应商类型2"}],"2": [{"522": "供货类型1"},{"523": "供货类型2"}],
+    #         "3": [{"524": "供应商级别1"},{"525": "供应商级别2"}]}
+    # r2 = bp2.send_requests(url, h, 'post', 'json', boby)
+    # print(r2.json())

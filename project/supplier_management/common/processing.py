@@ -1,7 +1,7 @@
 from config.main_pathes import PROJECTINFO
 from project.supplier_management.common.assertion import AssertSetIF
 from project.supplier_management.common.project_path import DATA_PATH
-from utils.basePage import BasePage
+from utils.basePage import BasePage, GetCase
 from utils.fileReader import YamlReader, ExcelReader
 from utils.getToken import get_token
 from utils.log import Logger
@@ -27,12 +27,13 @@ class Processing(object):
         """
         :param i: 执行用例编号
         """
-        bp = BasePage(self.file, self.project, i)
-        title = bp.get_title()  # 获取用例标题
-        boby = bp.params()  # 获取参数
-        expected = bp.expected_results()    # 获取预期结果
+        case = GetCase(self.file, self.project, i)
+        bp = BasePage(case)
+        title = case.get_title()  # 获取用例标题
+        boby = case.params()  # 获取参数
+        expected = case.expected_results()    # 获取预期结果
         self.logger.info('%s.开始%s测试' % (int(i)+1, title))
-        url = self.HOST + bp.api()
+        url = self.HOST + case.api()
         self.logger.info('测试接口: %s' % url)   # 输出接口地址
         h = headers if headers!=None else {"Authorization": "Token %s" % self.token,
                                            "Content-Type": "application/json",
@@ -52,6 +53,9 @@ class Processing(object):
         for i in self.failList:
             failLog.error(i)
 
+    def case_situation(self):
+        pass
+
 
 if __name__ == '__main__':
     project = 'SupplierManagement'
@@ -60,6 +64,7 @@ if __name__ == '__main__':
     caseNum = test.maxCaseNum
     for i in range(test.maxCaseNum):
         test.runner(i)
+    # test.runner(0)
     test.fail_log()
 
 
