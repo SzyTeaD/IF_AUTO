@@ -31,7 +31,7 @@ class Processing(object):
         title = bp.get_title()  # 获取用例标题
         boby = bp.params()  # 获取参数
         expected = bp.expected_results()    # 获取预期结果
-        self.logger.info('开始%s测试' % title)
+        self.logger.info('%s.开始%s测试' % (int(i)+1, title))
         url = self.HOST + bp.api()
         self.logger.info('测试接口: %s' % url)   # 输出接口地址
         h = headers if headers!=None else {"Authorization": "Token %s" % self.token,
