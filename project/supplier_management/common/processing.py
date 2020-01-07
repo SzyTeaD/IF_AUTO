@@ -15,28 +15,25 @@ class Processing(object):
         :param rows: 执行用例数，默认为全部执行
         """
         self.project = project  # 定义项目
-        self.file = "%s\\" % DATA_PATH + filename
         self.ast = AssertSetIF(self.project)
         self.token = get_token(self.project)  # 获取TOKEN
         self.failList = self.ast.failList
         self.logger = Logger(self.project).get_logger()
         self.HOST = YamlReader(PROJECTINFO).get(self.project).get('HOST')  # 获取HOST
-        self.maxCaseNum = rows if rows else int(ExcelReader(self.file).max_rows)-3
+        self.file = "%s\\" % DATA_PATH + filename if filename else None
+        self.maxCaseNum = rows if rows else int(ExcelReader(self.file).max_rows)-3 if filename else None
 
-    def runner(self, url, headers=None, request_type=None, data_type=None, boby=None):
+    def runner(self, url, request_type, headers,data_type=None, boby=None):
         bp = BasePage()
         self.logger.info('------------------------开始测试------------------------')
-        h = headers if headers != None else {"Authorization": "Token %s" % self.token,
-                                             "Content-Type": "application/json",
-                                             "Connection": "keep-alive"}
-        r = bp.send_requests(url, h, request_type, data_type, boby)
+        r = bp.send_requests(url, headers, request_type, data_type, boby)
         return_code = str(r.status_code)  # 获取返回码
         return_data = r.json()  # 获取返回数据
         self.logger.info('返回码：%s') % return_code
         self.logger.info('返回参数：%s') % return_data
 
     def runner_by_excel(self, headers=None):
-        for i in range(test.maxCaseNum):
+        for i in range(self.maxCaseNum):
             case = GetCase(self.file, self.project, i)
             bp = BasePage(case)
             title = case.get_title()  # 获取用例标题
@@ -72,7 +69,7 @@ class Processing(object):
 if __name__ == '__main__':
     project = 'SupplierManagement'
     file = 'data_of_sample.xlsx'
-    test = Processing(project, file,1)
+    test = Processing(project, file)
     test.runner_by_excel()
     test.case_situation()
 
