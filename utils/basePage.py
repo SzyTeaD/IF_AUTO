@@ -4,7 +4,6 @@ import json
 import requests
 
 from config.main_pathes import PROJECTINFO
-from project.supplier_management.common.project_path import DATA_PATH
 from utils.assertion import AssertSetIF
 from utils.fileReader import ExcelReader, YamlReader
 from utils.log import Logger
@@ -21,14 +20,12 @@ class BasePage(object):
         self.logger = Logger(self.project).get_logger()  # 初始化日志
         self.HOST = YamlReader(PROJECTINFO).get(self.project).get('HOST')  # 初始化Host
 
-    def send_requests_by_excel(self, filename, rows=None, headers=None):
+    def send_requests_by_excel(self, file, rows=None, headers=None):
         """
         :param filename: 用例文件名称
         :param rows: 执行用例数，默认为全部执行
         :param headers: 请求头
         """
-        file = "%s\\%s" % (DATA_PATH, filename)
-        print(file)
         maxCaseNum = rows if rows else int(ExcelReader(file).max_rows)-3
         for i in range(maxCaseNum):
             case = GetCase(file, self.project, i)
@@ -81,7 +78,7 @@ class BasePage(object):
 class GetCase(object):
     def __init__(self, file, project, i=0):
         """
-        :param file: 用例文件名称
+        :param file: 用例文件路径
         :param project: 项目名称
         :param i: 执行用例编号
         """
@@ -141,9 +138,9 @@ if __name__ == '__main__':
     bp = BasePage(project)
     h = {"Authorization": "Token %s" % bp.get_token(), "Content-Type": "application/json"}
     url = 'http://106.74.152.35:13249/1/srm/config_list'
-    boby = {"1": [{"520": "供应商类型1"},{"521": "供应商类型2"}],"2": [{"522": "供货类型1"},{"523": "供货类型2"}],
-            "3": [{"524": "供应商级别1"},{"525": "供应商级别2"}]}
-    filename = '\data_of_sample.xlsx'
+    boby = {"1": [{"520": "供应商类型1"}, {"521": "供应商类型2"}], "2": [{"522": "供货类型1"}, {"523": "供货类型2"}],
+            "3": [{"524": "供应商级别1"}, {"525": "供应商级别2"}]}
+    filename = 'F:\PyCharm\py_work\IF_AOTO\project\supplier_management\data\data_of_sample.xlsx'
     # bp.send_requests_by_excel(filename)
     r = bp.send_requests(url, h, 'get', boby)
     print(r.json())
