@@ -1,30 +1,26 @@
 import unittest
 
-from project.supplier_management.common.processing import Processing
-from utils.getToken import get_token
+from utils.basePage import BasePage
 
 
 class SupplierIFTest(unittest.TestCase):
     @classmethod
     def setUpClass(self):
+        project = 'SupplierManagement'
+        self.test = BasePage(project)
         print('测试开始：')
 
     def test1_run_by_excel(self):
         try:
-            project = 'SupplierManagement'
-            file = 'data_of_sample.xlsx'
-            test = Processing(project, file)
-            test.runner_by_excel()
-            test.case_situation()
+            file = 'F:\PyCharm\py_work\IF_AOTO\project\supplier_management\data\data_of_sample.xlsx'
+            self.test.send_requests_by_excel(file)
         except Exception:
             print('测试阻塞')
 
     def test2_run(self):
-        project = 'SupplierManagement'
         url = 'http://106.74.152.35:13249/1/srm/config_list'
-        h = {"Authorization": "Token %s" % get_token(project), "Content-Type": "application/json"}
-        test = Processing(project)
-        r = test.runner(url, 'get', h)
+        h = {"Authorization": "Token %s" % self.test.get_token(), "Content-Type": "application/json"}
+        r = self.test.send_requests(url,h,'get')
         print(r.json())
 
     @classmethod
