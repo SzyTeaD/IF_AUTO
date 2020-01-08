@@ -3,27 +3,61 @@ import json
 
 import requests
 
+from config.main_pathes import PROJECTINFO
 from project.supplier_management.common.project_path import DATA_PATH
-from utils.fileReader import ExcelReader
+from utils.assertion import AssertSetIF
+from utils.fileReader import ExcelReader, YamlReader
 from utils.getToken import get_token
+from utils.log import Logger
 
 
 class BasePage(object):
-    def __init__(self, case=None):
+    def __init__(self, project):
         """
-        :param case:用例。case不为空时，需添加用例文件到指定目录下（data）
+        :param project: 在配置文件中配置项目名称
         """
         self.res = requests
-        self.case = case
+        self.project = project  # 初始化项目
+        self.ast = AssertSetIF(self.project)    # 初始化断言
+        self.logger = Logger(self.project).get_logger()  # 初始化日志
+        self.HOST = YamlReader(PROJECTINFO).get(self.project).get('HOST')  # 初始化Host
 
-    def send_requests(self, url, headers=None, request_type=None, data_type=None, boby=None, **kwargs):
-        request_type = self.case.get_resType() if self.case else request_type
-        data_type = self.case.get_dataType() if self.case else data_type
-        boby = self.case.params() if self.case else boby
-        if request_type == 'get':
+    def send_requests_by_excel(self, filename, rows=None, headers=None):
+        """
+        :param filename: 用例文件名称
+        :param rows: 执行用例数，默认为全部执行
+        :param headers: 请求头
+        """
+        file = "%s\\%s" % (DATA_PATH, filename)
+        print(file)
+        maxCaseNum = rows if rows else int(ExcelReader(file).max_rows)-3
+        for i in range(maxCaseNum):
+            case = GetCase(file, self.project, i)
+            title = case.get_title()  # 获取用例标题
+            boby = case.params()  # 获取参数
+            expected = case.expected_results()    # 获取预期结果
+            request_method = case.get_request_method()  # 获取请求方式
+            data_type = case.get_data_type()    # 获取数据类型
+            self.logger.info('%s.开始%s测试' % (int(i)+1, title))
+            url = self.HOST + case.api()
+            self.logger.info('测试接口: %s' % url)   # 输出接口地址
+            h = {"Authorization": "Token %s" % get_token(self.project),
+                 "Content-Type": "application/json",
+                 "Connection": "keep-alive"} if headers==None else headers
+            r = self.send_requests(url, h, request_method, boby, data_type)  # 发送请求
+            return_code = str(r.status_code)    # 获取返回码
+            self.ast.assertEqual(str(expected['code']).replace(' ', ''), return_code,
+                                 '用例编号%s; 返回码：%s' % (int(i)+1, return_code))   # 判断返回码是否正确
+            return_data = r.json().get('data')  # 获取返回数据
+            self.ast.assertIn(str(expected['data']), str(return_data),
+                              '用例编号%s; 返回参数：%s' % (int(i)+1, r.json()))   # 判断返回值是否正确
+            self.logger.info('------------------------本条用例执行结束------------------------')
+
+    def send_requests(self, url, headers, request_method, boby=None, data_type=None, **kwargs):
+        if request_method == 'get':
             r = self.res.get(url, headers=headers, params=boby, **kwargs)
             return r
-        elif request_type == 'post':
+        elif request_method == 'post':
             if data_type == 'json':
                 r = self.res.post(url, headers=headers, json=boby, **kwargs)  # 发送请求
                 return r
@@ -33,7 +67,7 @@ class BasePage(object):
             else:
                 print("不支持%s类型数据格式，仅支持json和text" % data_type)
         else:
-            raise TypeError('不支持%s类型请求，请尝试post或者get方式' % request_type)
+            raise TypeError('不支持%s类型请求，请尝试post或者get方式' % request_method)
 
 
 class GetCase(object):
@@ -76,12 +110,12 @@ class GetCase(object):
         expected_results = self.workBook().get('预期')
         return ast.literal_eval(expected_results)
 
-    def get_resType(self):
+    def get_request_method(self):
         # 获取方法
         method = ast.literal_eval(self.workBook().get('关键词'))
-        return method['request_type']
+        return method['request_method']
 
-    def get_dataType(self):
+    def get_data_type(self):
         method = ast.literal_eval(self.workBook().get('关键词'))
         return method['data_type']
 
@@ -95,16 +129,13 @@ class ExpectedReturn(object):
 
 
 if __name__ == '__main__':
-    file = '%s\data_of_sample.xlsx' % DATA_PATH
+    filename = '\data_of_sample.xlsx'
     project = 'SupplierManagement'
-    case = GetCase(file, project, 0)
-    bp = BasePage(case)
     h = {"Authorization": "Token %s" % get_token(project), "Content-Type": "application/json"}
     url = 'http://106.74.152.35:13249/1/srm/config_list'
-    r = bp.send_requests(url, h)
+    boby = {"1": [{"520": "供应商类型1"},{"521": "供应商类型2"}],"2": [{"522": "供货类型1"},{"523": "供货类型2"}],
+            "3": [{"524": "供应商级别1"},{"525": "供应商级别2"}]}
+    bp = BasePage(project)
+    # bp.send_requests_by_excel(filename)
+    r = bp.send_requests(url, h, 'get', boby)
     print(r.json())
-    # bp2 = BasePage()
-    # boby = {"1": [{"520": "供应商类型1"},{"521": "供应商类型2"}],"2": [{"522": "供货类型1"},{"523": "供货类型2"}],
-    #         "3": [{"524": "供应商级别1"},{"525": "供应商级别2"}]}
-    # r2 = bp2.send_requests(url, h, 'post', 'json', boby)
-    # print(r2.json())

@@ -10,9 +10,6 @@ class SupplierIFTest(unittest.TestCase):
         print('测试开始：')
 
     def test1_run_by_excel(self):
-        project = 'SupplierManagement'
-        file = 'data_of_sample.xlsx'
-        dr = Processing(project, file)
         try:
             project = 'SupplierManagement'
             file = 'data_of_sample.xlsx'
