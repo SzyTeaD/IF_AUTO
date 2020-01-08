@@ -7,7 +7,6 @@ from config.main_pathes import PROJECTINFO
 from project.supplier_management.common.project_path import DATA_PATH
 from utils.assertion import AssertSetIF
 from utils.fileReader import ExcelReader, YamlReader
-from utils.getToken import get_token
 from utils.log import Logger
 
 
@@ -41,7 +40,7 @@ class BasePage(object):
             self.logger.info('%s.开始%s测试' % (int(i)+1, title))
             url = self.HOST + case.api()
             self.logger.info('测试接口: %s' % url)   # 输出接口地址
-            h = {"Authorization": "Token %s" % get_token(self.project),
+            h = {"Authorization": "Token %s" % self.get_token(),
                  "Content-Type": "application/json",
                  "Connection": "keep-alive"} if headers==None else headers
             r = self.send_requests(url, h, request_method, boby, data_type)  # 发送请求
@@ -68,6 +67,15 @@ class BasePage(object):
                 print("不支持%s类型数据格式，仅支持json和text" % data_type)
         else:
             raise TypeError('不支持%s类型请求，请尝试post或者get方式' % request_method)
+
+    def get_token(self):
+        p = YamlReader(PROJECTINFO).get(self.project)['token'] if self.project else YamlReader(PROJECTINFO)
+        url = p.get('url') if p and p.get('url') else YamlReader(PROJECTINFO).get('token')['url']
+        headers = p.get('head') if p and p.get('head') else YamlReader(PROJECTINFO).get('token')['head']
+        boby = p.get('data') if p and p.get('data') else YamlReader(PROJECTINFO).get('token')['data']
+        r = requests.post(url, data=json.dumps(boby), headers=headers)
+        t = r.json()
+        return t['data']['access_token']
 
 
 class GetCase(object):
@@ -129,13 +137,13 @@ class ExpectedReturn(object):
 
 
 if __name__ == '__main__':
-    filename = '\data_of_sample.xlsx'
     project = 'SupplierManagement'
-    h = {"Authorization": "Token %s" % get_token(project), "Content-Type": "application/json"}
+    bp = BasePage(project)
+    h = {"Authorization": "Token %s" % bp.get_token(), "Content-Type": "application/json"}
     url = 'http://106.74.152.35:13249/1/srm/config_list'
     boby = {"1": [{"520": "供应商类型1"},{"521": "供应商类型2"}],"2": [{"522": "供货类型1"},{"523": "供货类型2"}],
             "3": [{"524": "供应商级别1"},{"525": "供应商级别2"}]}
-    bp = BasePage(project)
+    filename = '\data_of_sample.xlsx'
     # bp.send_requests_by_excel(filename)
     r = bp.send_requests(url, h, 'get', boby)
     print(r.json())
