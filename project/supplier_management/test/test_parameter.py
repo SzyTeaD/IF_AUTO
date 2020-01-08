@@ -20,7 +20,7 @@ class SupplierIFTest(unittest.TestCase):
     def test2_run(self):
         url = 'http://106.74.152.35:13249/1/srm/config_list'
         h = {"Authorization": "Token %s" % self.test.get_token(), "Content-Type": "application/json"}
-        r = self.test.send_requests(url,h,'get')
+        r = self.test.send_requests(url, h, 'get')
         print(r.json())
 
     @classmethod
