@@ -26,8 +26,8 @@ class BasePage(object):
         :param rows: 执行用例数，默认为全部执行
         :param headers: 请求头
         """
-        maxCaseNum = rows if rows else int(ExcelReader(file).max_rows)-3
-        for i in range(maxCaseNum):
+        self.maxCaseNum = rows if rows else int(ExcelReader(file).max_rows)-3
+        for i in range(self.maxCaseNum):
             case = GetCase(file, self.project, i)
             title = case.get_title()  # 获取用例标题
             boby = case.params()  # 获取参数
@@ -48,6 +48,7 @@ class BasePage(object):
             self.ast.assertIn(str(expected['data']), str(return_data),
                               '用例编号%s; 返回参数：%s' % (int(i)+1, r.json()))   # 判断返回值是否正确
             self.logger.info('------------------------本条用例执行结束------------------------')
+        self.case_by_excel_situation()
 
     def send_requests(self, url, headers, request_method, boby=None, data_type=None, **kwargs):
         if request_method == 'get':
@@ -73,6 +74,18 @@ class BasePage(object):
         r = requests.post(url, data=json.dumps(boby), headers=headers)
         t = r.json()
         return t['data']['access_token']
+
+    def case_by_excel_situation(self):
+        from project.supplier_management.common.project_fail_log import FailLogger
+        faillist = self.ast.failList
+        faliNum = 0
+        failLog = FailLogger(self.project).get_logger()
+        failLog.info('本次未通过的用例：')
+        for i in faillist:
+            failLog.error(i)
+            faliNum += 1
+        fail_rate = '%s%%' % ((self.maxCaseNum - faliNum) / self.maxCaseNum * 100)
+        self.logger.info('执行用例总数：%s条，失败用例数：%s条,用例通过率：%s' % (self.maxCaseNum, faliNum, fail_rate))
 
 
 class GetCase(object):
