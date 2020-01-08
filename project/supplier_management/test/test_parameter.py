@@ -26,7 +26,7 @@ class SupplierIFTest(unittest.TestCase):
     @classmethod
     def tearDownClass(self):
         print('测试结束')
-
+        pass
 
 if __name__ == '__main__':
     unittest.main()
